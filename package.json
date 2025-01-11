@@ -10,10 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "global": "^4.4.0",
     "plotly.js": "^2.35.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-plotly.js": "^2.6.0"
+    "react-plotly.js": "^2.6.0",
+    "readable-stream": "^4.7.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

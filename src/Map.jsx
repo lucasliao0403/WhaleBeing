@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import Plotly from "plotly.js";
 
-const PlotlyMap = () => {
+const Map = () => {
   const mapRef = useRef(null);
 
   useEffect(() => {
@@ -38,4 +38,4 @@ const PlotlyMap = () => {
   return <div ref={mapRef} style={{ width: "100%", height: "100%" }} />;
 };
 
-export default PlotlyMap;
+export default Map;
