@@ -15,7 +15,6 @@ url = "https://jsonplaceholder.typicode.com/posts/1"
 # get ship data 
 @app.route('/')
 def root():
-    
     # load api key
     load_dotenv()
     api_key = os.getenv('SEAROUTES_API_KEY')
@@ -41,15 +40,18 @@ def root():
     if response.status_code == 200:
         # Successful request
         data = response.json()
-        print(pprint.pprint(data))
+        print(params)
+        # print(pprint.pprint(data))
         # print(json.dumps(data))
         # print(data)
+        return data
     else:
         # Error handling
         print(f"Error: {response.status_code}")
         print(response.text)
+        return "Error: " + str(response.status_code) + " " + response.text
 
-    return "a"
+   
 
 # get ship data 
 @app.route('/ship')
