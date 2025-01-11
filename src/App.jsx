@@ -1,12 +1,16 @@
 import TextInput from "./getShip";
 import "./App.css";
 import WhaleMap from "./WhaleMap";
+import { useState, useEffect } from "react";
 
 function App() {
+  const [shipPoints, setShipPoints] = useState([]);
+  console.log(shipPoints)
+  
   return (
     <div>
       <WhaleMap />
-      <TextInput />
+      <TextInput shipPoints={shipPoints} setShipPoints={setShipPoints} />
     </div>
   )
   

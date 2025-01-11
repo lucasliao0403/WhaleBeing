@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { use } from "react";
 
-export default function TextInput() {
+export default function TextInput(props) {
   const [inputValue, setInputValue] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -12,16 +12,15 @@ export default function TextInput() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // RESULTS:
-  const [points, setPoints] = useState([]);
+  // props: shipPoints, setShipPoints
 
   const handleChange = (e) => setInputValue(e.target.value);
   const handleStartDateChange = (e) => setStartDate(e.target.value);
   const handleEndDateChange = (e) => setEndDate(e.target.value);
 
-  useEffect(() => {
-    // do something with the points
-  }, [points]);
+//   useEffect(() => {
+//     // do something with the points
+//   }, [points]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,8 +37,7 @@ export default function TextInput() {
         params: { imo: inputValue, start_date: startDateTime, end_date: endDateTime },
       });
       setResponse(result.data); // Assuming the API returns some response data
-      setPoints(result.data.features[0].geometry.coordinates[0]);
-      console.log(result.data.features[0].geometry.coordinates[0])
+      props.setShipPoints(result.data.features[0].geometry.coordinates[0]);
     } catch (err) {
       setError(err.message || "An error occurred");
     } finally {
