@@ -1,15 +1,12 @@
-
+import "./App.css";
+import WhaleMap from "./WhaleMap";
 
 function App() {
   return (
-    <div>
-      <div className="bold text-xl">
-        yerr
-      </div>
-      Hello World
-    </div>
-  )
-  
+    <>
+      <WhaleMap />
+    </>
+  );
 }
 
 export default App;
