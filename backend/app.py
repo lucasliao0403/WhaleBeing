@@ -3,10 +3,12 @@ import requests
 import os
 from dotenv import load_dotenv
 import pprint
+from flask_cors import CORS
 
 
 
 app = Flask(__name__)
+CORS(app)
 
 # The API endpoint
 url = "https://jsonplaceholder.typicode.com/posts/1"
