@@ -27,8 +27,8 @@ def root():
 
         # Vessel information (either imo or mmsi must be provided)
         # imo = 9648714
-        departureDateTime = "2023-02-16T15:00:00Z"
-        arrivalDateTime = "2024-02-16T16:00:00Z"
+        departureDateTime = "2025-01-01T21:32:44Z"
+        arrivalDateTime = "2025-01-11T21:32:44Z"
 
         params = {
             "imo": imo,
