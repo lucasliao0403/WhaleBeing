@@ -3,6 +3,7 @@ import "./App.css";
 import { useState, useRef, useEffect } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import axios from "axios";
 
 function App() {
   const mapRef = useRef();
@@ -10,10 +11,43 @@ function App() {
   const [shipPoints, setShipPoints] = useState([]);
   const [currentTimestamp, setCurrentTimestamp] = useState(0);
   const [timeChunks, setTimeChunks] = useState([]);
-  const [startDate, setStartDate] = useState("01-01");
-  const [endDate, setEndDate] = useState("02-01");
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [shipIdentifier, setShipIdentifier] = useState();
+
+  const [response, setResponse] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   
   const geojsonBaseUrl = "/data/daily_geojsons";
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    setResponse("");
+
+    generateTimeChunks();
+
+    const startDateTime = `${startDate}T00:00:00`;
+    const endDateTime = `${endDate}T00:00:00`;
+    // print("fetching")
+    try {
+      const result = await axios.get("http://127.0.0.1:5000/ship-data", {
+        params: {
+          imo: shipIdentifier,
+          start_date: startDateTime,
+          end_date: endDateTime,
+        },
+      });
+      setResponse(result.data); // Assuming the API returns some response data
+      setShipPoints(result.data.features[0].geometry.coordinates[0]);
+    } catch (err) {
+      setError(err.message || "An error occurred");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     mapboxgl.accessToken =
@@ -79,7 +113,7 @@ function App() {
         },
         paint: {
           'line-color': '#FFF',
-          'line-width': 10
+          'line-width': 3
         }
       });
     });
@@ -135,15 +169,20 @@ function App() {
       alert("Please provide a valid start date.");
       return;
     }
+    
 
-    const start = new Date(`2023-${startDate}`);
+    const start = new Date(`2023-${startDate.substring(5, startDate.length)}`);
     const chunks = [];
 
+    // console.log(startDate)
+    // console.log(start)
+
     if (endDate) {
-      const end = new Date(`2023-${endDate}`);
+      const end = new Date(`2023-${endDate.substring(5, endDate.length)}`);
       while (start <= end) {
         chunks.push(start.toISOString(1).split("T")[0]);
         start.setDate(start.getDate() + 1);
+        
       }
     } else {
       // Static heatmap for the single start date
@@ -156,91 +195,56 @@ function App() {
     setCurrentTimestamp(0);
   };
 
- return (
-     <div>
-       <div
-         style={{
-           padding: "10px",
-           background: "#222",
-           color: "#fff",
-           position: "absolute",
-           zIndex: 1,
-           borderRadius: "8px",
-           display: "flex",
-           alignItems: "center",
-           gap: "10px",
-         }}
-       >
-         <input
-           type="text"
-           placeholder="MM-DD"
-           value={startDate}
-           onChange={(e) => setStartDate(e.target.value)}
-           maxLength={5}
-           style={{
-             background: "transparent",
-             border: "1px solid #555",
-             color: "#fff",
-             borderRadius: "4px",
-             padding: "5px 10px",
-             width: "80px",
-             textAlign: "center",
-             fontSize: "14px",
-           }}
-         />
-         <input
-           type="text"
-           placeholder="MM-DD"
-           value={endDate}
-           onChange={(e) => setEndDate(e.target.value)}
-           maxLength={5}
-           style={{
-             background: "transparent",
-             border: "1px solid #555",
-             color: "#fff",
-             borderRadius: "4px",
-             padding: "5px 10px",
-             width: "80px",
-             textAlign: "center",
-             fontSize: "14px",
-           }}
-         />
-         <button
-           onClick={generateTimeChunks}
-           style={{
-             background: "#444",
-             color: "#fff",
-             border: "none",
-             borderRadius: "4px",
-             padding: "5px 10px",
-             cursor: "pointer",
-             fontSize: "14px",
-           }}
-         >
-           Load Data
-         </button>
-       </div>
-       {timeChunks.length > 0 && (
-         <div
-           style={{
-             position: "absolute",
-             bottom: "20px",
-             right: "0px",
-             background: "rgba(0, 0, 0, 0.5)",
-             color: "#fff",
-             padding: "5px 10px",
-             borderRadius: "4px",
-             fontSize: "14px",
-             zIndex: 2,
-           }}
-         >
-           {timeChunks[currentTimestamp]}
-         </div>
-       )}
-       <TextInput shipPoints={shipPoints} setShipPoints={setShipPoints} />
-       <div ref={mapContainerRef} style={{ width: "100vw", height: "100vh" }} />
-     </div>
-   );
+  return (
+    <div>
+      <div className="absolute p-2 bg-transparent text-white rounded-lg z-10 flex flex-col gap-2 align-items-center align-center justify-center w-60">
+        <div className="flex gap-2">
+          <input
+            type="date"
+            placeholder="MM-DD"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            maxLength={5}
+            className="bg-transparent border border-gray-600 text-white rounded px-2 py-1 w-auto text-center text-sm"
+          />
+          <input
+            type="date"
+            placeholder="MM-DD"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            maxLength={5}
+            className="bg-transparent border border-gray-600 text-white rounded px-2 py-1 w-auto text-center text-sm"
+          />
+        </div>
+  
+        <input
+          type="text"
+          placeholder="Ship IMO Number"
+          value = {shipIdentifier}
+          onChange={(e) => setShipIdentifier(e.target.value)}
+          className="bg-transparent border border-gray-600 text-white rounded px-2 py-1 w-auto text-center text-sm m-0"
+        />
+        
+        <button
+          onClick={handleSubmit}
+          className="bg-gray-600 text-white border-none rounded px-2 py-1 cursor-pointer text-sm m-0"
+        >
+          Load Data
+        </button>
+        {loading && <p className="loadingText">Loading...</p>}
+        {error && <p className="errorText">Error: {error}</p>}
+      </div>
+  
+      {timeChunks.length > 0 && (
+        <div className="absolute bottom-5 right-0 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm z-20">
+          {timeChunks[currentTimestamp]}
+        </div>
+      )}
+      <div ref={mapContainerRef} className="w-full h-screen" />
+    </div>
+  );
+  
+  
  };
  
  export default App;

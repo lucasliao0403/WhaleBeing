@@ -164,7 +164,7 @@ console.log(shipPoints);
           background: "#222",
           color: "#fff",
           position: "absolute",
-          zIndex: 1,
+          zIndex: 5,
           borderRadius: "8px",
           display: "flex",
           alignItems: "center",
@@ -188,23 +188,7 @@ console.log(shipPoints);
             fontSize: "14px",
           }}
         />
-        <input
-          type="text"
-          placeholder="MM-DD"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-          maxLength={5}
-          style={{
-            background: "transparent",
-            border: "1px solid #555",
-            color: "#fff",
-            borderRadius: "4px",
-            padding: "5px 10px",
-            width: "80px",
-            textAlign: "center",
-            fontSize: "14px",
-          }}
-        />
+        
         <button
           onClick={generateTimeChunks}
           style={{
