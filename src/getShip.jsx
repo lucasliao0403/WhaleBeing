@@ -1,4 +1,4 @@
-'use client'; // For Next.js environments, if required
+"use client"; // For Next.js environments, if required
 
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -18,9 +18,9 @@ export default function TextInput(props) {
   const handleStartDateChange = (e) => setStartDate(e.target.value);
   const handleEndDateChange = (e) => setEndDate(e.target.value);
 
-//   useEffect(() => {
-//     // do something with the points
-//   }, [points]);
+  //   useEffect(() => {
+  //     // do something with the points
+  //   }, [points]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,7 +34,11 @@ export default function TextInput(props) {
 
     try {
       const result = await axios.get("http://127.0.0.1:5000/ship-data", {
-        params: { imo: inputValue, start_date: startDateTime, end_date: endDateTime },
+        params: {
+          imo: inputValue,
+          start_date: startDateTime,
+          end_date: endDateTime,
+        },
       });
       setResponse(result.data); // Assuming the API returns some response data
       props.setShipPoints(result.data.features[0].geometry.coordinates[0]);
@@ -46,9 +50,13 @@ export default function TextInput(props) {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6">
+    // <div className="max-w-md mx-auto p-6">
+    <div className="searchBar">
       <div className="space-y-4">
-        <label htmlFor="textInput" className="block text-lg font-medium text-gray-700">
+        <label
+          htmlFor="textInput"
+          className="block text-lg font-medium text-gray-700"
+        >
           Enter IMO:
         </label>
         <input
@@ -61,7 +69,10 @@ export default function TextInput(props) {
         />
 
         {/* Start Date Input */}
-        <label htmlFor="startDate" className="block text-lg font-medium text-gray-700">
+        <label
+          htmlFor="startDate"
+          className="block text-lg font-medium text-gray-700"
+        >
           Start Date:
         </label>
         <input
@@ -73,7 +84,10 @@ export default function TextInput(props) {
         />
 
         {/* End Date Input */}
-        <label htmlFor="endDate" className="block text-lg font-medium text-gray-700">
+        <label
+          htmlFor="endDate"
+          className="block text-lg font-medium text-gray-700"
+        >
           End Date:
         </label>
         <input
@@ -98,7 +112,9 @@ export default function TextInput(props) {
       {response && (
         <div className="mt-4 p-4 bg-gray-100 border border-gray-300 rounded-md">
           <p className="text-gray-700">Response:</p>
-          <pre className="text-sm text-gray-600">{JSON.stringify(response, null, 2)}</pre>
+          <pre className="text-sm text-gray-600">
+            {JSON.stringify(response, null, 2)}
+          </pre>
         </div>
       )}
     </div>
