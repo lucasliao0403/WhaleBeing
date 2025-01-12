@@ -77,7 +77,15 @@ function App() {
         type: "heatmap",
         source: "heatmap-source",
         paint: {
-          "heatmap-intensity": 1, // Adjust overall intensity
+          "heatmap-weight": [
+            "interpolate",
+            ["linear"],
+            ["get", "weight"], // Dynamically fetch the "weight" property from the GeoJSON data
+            0,
+            0, // If weight is 0, heatmap weight will be 0
+            1,
+            1, // If weight is 1, heatmap weight will be 1
+          ],
           "heatmap-radius": 20, // Radius of each point in pixels
           "heatmap-opacity": 0.6, // Opacity of the heatmap
         },
@@ -118,6 +126,7 @@ function App() {
       if (mapRef.current) mapRef.current.remove();
     };
   }, []);
+
 
   // Update the line source whenever shipPoints changes
   useEffect(() => {
@@ -161,6 +170,8 @@ function App() {
       }
     }
   }, [shipPoints]);
+
+  console.log(shipPoints);
 
   return (
     <div>
