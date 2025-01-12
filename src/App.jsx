@@ -9,8 +9,18 @@ function App() {
   const mapRef = useRef();
   const mapContainerRef = useRef();
   const [shipPoints, setShipPoints] = useState([]);
+  const [date, setDate] = useState("2023-01-01");
+  const [geojsonPath, setGeojsonPath] = useState(
+    `/public/data/daily_geojsons/${date}.geojson`
+  );
+
+  const handleDateChange = (e) => {
+    setDate(e.target.value);
+  };
 
   useEffect(() => {
+    setGeojsonPath(`/public/data/daily_geojsons/${date}.geojson`);
+
     mapboxgl.accessToken =
       "pk.eyJ1IjoiZ29yZG9uMTExIiwiYSI6ImNtNXNybmJsdjBwMXAyaXEwYmFrcHhkZ3oifQ.geYSJx3MGvrpjT5WtJGvqQ";
 
@@ -25,7 +35,7 @@ function App() {
       // Add a source for the heatmap
       mapRef.current.addSource("heatmap-source", {
         type: "geojson",
-        data: "./src/output.geojson",
+        data: geojsonPath,
       });
 
       // Add a heatmap layer
@@ -52,9 +62,8 @@ function App() {
     return () => {
       if (mapRef.current) mapRef.current.remove();
     };
-  }, []);
+  }, [date, geojsonPath]);
 
-  console.log(shipPoints);
   return (
     <div>
       <div
@@ -62,7 +71,21 @@ function App() {
         ref={mapContainerRef}
         style={{ height: "100vh", width: "100%" }}
       />
-
+      <div
+        className="dateselect"
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+        }}
+      >
+        <input
+          id="dateInput"
+          type="date"
+          value={date} // Bind the input value to the state
+          onChange={handleDateChange} // Update the state when the date is changed
+        />
+      </div>
       <TextInput shipPoints={shipPoints} setShipPoints={setShipPoints} />
     </div>
   );
