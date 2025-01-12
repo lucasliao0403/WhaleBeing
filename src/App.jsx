@@ -50,7 +50,7 @@ function App() {
     const endDateTime = `${endDate}T00:00:00`;
     // print("fetching")
     try {
-      const result = await axios.get("http://127.0.0.1:5000/ship-data", {
+      const result = await axios.get("https://whalebeingbackend.onrender.com//ship-data", {
         params: {
           imo: shipIdentifier,
           start_date: startDateTime,
