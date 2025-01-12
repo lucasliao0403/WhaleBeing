@@ -226,42 +226,45 @@ function App() {
 
   return (
     <div>
-      <div
-        style={{
-          position: "fixed",
-          zIndex: "99",
-          top: "5%",
-          left: "85%",
-          width: "200px",
-          height: "200px",
-          backgroundColor: "black",
-          borderRadius: "10px",
-          color: "white",
-          display: "flex",
-          justifyContent: "start",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "40px",
-        }}
-        className="score-con"
-      >
+      {/* {showScore && (
         <div
-          className="risktext"
           style={{
-            fontSize: "1.5em",
+            position: "fixed",
+            zIndex: "99",
+            top: "5%",
+            left: "85%",
+            width: "200px",
+            height: "200px",
+            backgroundColor: "black",
+            borderRadius: "10px",
+            color: "white",
+            display: "flex",
+            justifyContent: "start",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "40px",
           }}
+          className="score-con"
         >
-          Risk Assessment
+          <div
+            className="risktext"
+            style={{
+              fontSize: "1.5em",
+            }}
+          >
+            Risk Assessment
+          </div>
+          <div
+            className="numberassessment"
+            style={{
+              fontSize: "2em",
+            }}
+          >
+            {randomNumber}
+          </div>
         </div>
-        <div
-          className="numberassessment"
-          style={{
-            fontSize: "2em",
-          }}
-        >
-          {randomNumber}
-        </div>
-      </div>
+      )} */}
+
       <div className="absolute p-2 bg-transparent text-white rounded-lg z-10 flex flex-col gap-2 align-items-center align-center justify-center w-60">
         <div className="flex gap-2">
           <input
