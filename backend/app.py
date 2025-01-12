@@ -25,7 +25,7 @@ def root():
         # Vessel information (either imo or mmsi must be provided)
         departureDateTime = request.args.get('start_date') + "Z"
         arrivalDateTime = request.args.get('end_date') + "Z"
-
+        print(departureDateTime, arrivalDateTime)
         params = {
             "imo": imo,
             # "mmsi": mmsi,  # uncomment if using mmsi instead of imo
