@@ -14,6 +14,7 @@ function App() {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [shipIdentifier, setShipIdentifier] = useState();
+  const [theme, setTheme] = useState("light"); // Add theme state
 
   const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
@@ -55,8 +56,8 @@ function App() {
 
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current,
-      style: "mapbox://styles/mapbox/dark-v10",
-      center: [-130.0, 40.5], // Centered around California
+      style: theme === "light" ? "mapbox://styles/gordon111/cm5ti9unu005501rw39yr9q7o" : "mapbox://styles/mapbox/dark-v10", // Update style based on theme
+      center: [-125.0, 38.5], // Centered around California
       zoom: 5, // Adjust zoom level
     });
 
@@ -112,8 +113,10 @@ function App() {
           'line-cap': 'round'
         },
         paint: {
-          'line-color': '#FFF',
-          'line-width': 3
+          'line-color': '#fff', // Updated color to match the app's color scheme
+          'line-width': 2, // Adjusted line width
+          'line-blur': 2, // Added blur to create a glow effect
+          'line-opacity': 0.8 // Adjust opacity for better glow effect
         }
       });
     });
@@ -121,14 +124,18 @@ function App() {
     return () => {
       if (mapRef.current) mapRef.current.remove();
     };
-  }, []);
+  }, [theme, timeChunks, shipPoints]);
+
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+  };
 
   useEffect(() => {
     if (!mapRef.current || timeChunks.length === 0) return;
 
     const interval = setInterval(() => {
       setCurrentTimestamp((prev) => (prev + 1) % timeChunks.length);
-    }, 50);
+    }, 100);
 
     return () => clearInterval(interval);
   }, [timeChunks]);
@@ -233,6 +240,12 @@ function App() {
         </button>
         {loading && <p className="loadingText">Loading...</p>}
         {error && <p className="errorText">Error: {error}</p>}
+        <button
+          onClick={toggleTheme}
+          className="bg-gray-600 text-white border-none rounded px-2 py-1 cursor-pointer text-sm m-0 mt-2"
+        >
+          Toggle Theme
+        </button>
       </div>
   
       {timeChunks.length > 0 && (
@@ -243,9 +256,6 @@ function App() {
       <div ref={mapContainerRef} className="w-full h-screen" />
     </div>
   );
-  
-  
- };
- 
- export default App;
- 
+}
+
+export default App;
