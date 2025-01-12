@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./App.css";
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function App() {
   const mapRef = useRef();
@@ -75,8 +77,8 @@ function App() {
         className="dateselect"
         style={{
           position: "absolute",
-          top: "50%",
-          left: "50%",
+          top: "5%",
+          left: "85%",
         }}
       >
         <input
@@ -84,6 +86,14 @@ function App() {
           type="date"
           value={date} // Bind the input value to the state
           onChange={handleDateChange} // Update the state when the date is changed
+          style={{
+            padding: "15px",
+            borderRadius: "10px",
+            backgroundColor: "black", // Black background
+            color: "white", // White text
+            border: "1px solid white", // White border
+            appearance: "none", // Disable default appearance (on some browsers)
+          }}
         />
       </div>
       <TextInput shipPoints={shipPoints} setShipPoints={setShipPoints} />
