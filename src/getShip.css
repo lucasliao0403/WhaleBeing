@@ -1,0 +1,102 @@
+/* Container for the search inputs */
+.searchBar {
+  background: transparent; /* Ensure full transparency */
+  box-shadow: none; /* Remove any shadow */
+  padding: 1rem;
+  border: none; /* Remove border if any */
+}
+
+/* Input container for spacing */
+.inputContainer {
+  background: transparent; /* Ensure transparency */
+  box-shadow: none; /* Remove any shadow */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0; /* Remove any padding */
+  border: none; /* Remove border if any */
+}
+
+/* Date inputs container */
+.dateInputs {
+  display: flex;
+  gap: 1rem; /* Space between start and end date inputs */
+}
+
+/* Input fields styling */
+.inputField {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  font-size: 1rem;
+  outline: none;
+  background-color: white;
+}
+
+/* Date input specific styling */
+.dateField {
+  flex: 1; /* Ensures both date inputs are the same size */
+}
+
+.inputField:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+/* Submit button styling */
+.submitButton {
+  padding: 0.5rem 1rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  background-color: #2563eb;
+}
+
+.submitButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+/* Loading text */
+.loadingText {
+  margin-top: 1rem;
+  color: #6b7280;
+}
+
+/* Error text */
+.errorText {
+  margin-top: 1rem;
+  color: #ef4444;
+}
+
+/* Response container */
+.responseContainer {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+}
+
+.responseLabel {
+  font-weight: bold;
+  color: #374151;
+}
+
+.responseText {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.title {
+  font-size: 4rem;
+  color: white;
+}
