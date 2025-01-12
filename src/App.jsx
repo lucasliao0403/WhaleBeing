@@ -276,6 +276,7 @@ function App() {
         <input
           type="text"
           placeholder="Ship IMO Number"
+          onChange={(e) => setShipIdentifier(e.target.value)}
           className={`bg-white border rounded px-2 py-1 w-auto text-center text-sm m-0 ${
             theme === "light"
               ? "border-gray-600 text-black"

@@ -23,20 +23,22 @@ def root():
         url = "https://api.searoutes.com/vessel/v2/trace"
 
         # Vessel information (either imo or mmsi must be provided)
-        # imo = 9648714
-        departureDateTime = "2025-01-01T21:32:44Z"
-        arrivalDateTime = "2025-01-11T21:32:44Z"
+        departureDateTime = request.args.get('start_date') + "Z"
+        arrivalDateTime = request.args.get('end_date') + "Z"
+
+        print(departureDateTime)
+        print(arrivalDateTime)
+        print(imo)
 
         params = {
             "imo": imo,
             # "mmsi": mmsi,  # uncomment if using mmsi instead of imo
             "departureDateTime": departureDateTime,
             "arrivalDateTime": arrivalDateTime,
-            # "departure": departure,  # uncomment if using unix timestamp for departure
-            # "arrival": arrival,  # uncomment if using unix timestamp for arrival
         }   
         headers = {"accept": "application/json", "x-api-key": api_key}
         response = requests.get(url, params=params, headers=headers)
+        pprint.pprint(vars(response))
 
         if response.status_code == 200:
             # Successful request
@@ -45,10 +47,13 @@ def root():
             return data
         else:
             # Error handling
-            print(f"Error: {response.status_code}")
+            pprint(vars(response))
+            print(response.status_code)
+            # print(f"Error: {response.status_code.error_code}")
             # print(response.text)
             return "Error: " + str(response.status_code) + " " + response.text
     except:
+        # pprint(vars(response))
         return "Error: Invalid Input."
 
         
