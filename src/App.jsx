@@ -1,9 +1,8 @@
-import TextInput from "./getShip";
-import "./App.css";
 import { useState, useRef, useEffect } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import axios from "axios";
+import "./App.css"; // Ensure you have the appropriate CSS file
 
 function App() {
   const mapRef = useRef();
@@ -19,7 +18,7 @@ function App() {
   const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  
+
   const geojsonBaseUrl = "/data/daily_geojsons";
 
   const handleSubmit = async (e) => {
@@ -56,7 +55,10 @@ function App() {
 
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current,
-      style: theme === "light" ? "mapbox://styles/gordon111/cm5ti9unu005501rw39yr9q7o" : "mapbox://styles/mapbox/dark-v10", // Update style based on theme
+      style:
+        theme === "light"
+          ? "mapbox://styles/gordon111/cm5ti9unu005501rw39yr9q7o"
+          : "mapbox://styles/mapbox/dark-v10", // Update style based on theme
       center: [-125.0, 38.5], // Centered around California
       zoom: 5, // Adjust zoom level
     });
@@ -65,7 +67,10 @@ function App() {
       // Add heatmap source
       mapRef.current.addSource("heatmap-source", {
         type: "geojson",
-        data: timeChunks.length > 0 ? `${geojsonBaseUrl}/${timeChunks[0]}.geojson` : null,
+        data:
+          timeChunks.length > 0
+            ? `${geojsonBaseUrl}/${timeChunks[0]}.geojson`
+            : null,
       });
 
       mapRef.current.addLayer({
@@ -79,12 +84,18 @@ function App() {
             "interpolate",
             ["linear"],
             ["heatmap-density"],
-            0, "rgba(33,102,172,0)",
-            0.2, "rgb(103,169,207)",
-            0.4, "rgb(209,229,240)",
-            0.6, "rgb(253,219,199)",
-            0.8, "rgb(239,138,98)",
-            1, "rgb(178,24,43)",
+            0,
+            "rgba(33,102,172,0)",
+            0.2,
+            "rgb(103,169,207)",
+            0.4,
+            "rgb(209,229,240)",
+            0.6,
+            "rgb(253,219,199)",
+            0.8,
+            "rgb(239,138,98)",
+            1,
+            "rgb(178,24,43)",
           ],
           "heatmap-radius": 20,
           "heatmap-opacity": 0.8,
@@ -92,32 +103,32 @@ function App() {
       });
 
       // Add route layer
-      mapRef.current.addSource('route-source', {
-        type: 'geojson',
+      mapRef.current.addSource("route-source", {
+        type: "geojson",
         data: {
-          type: 'Feature',
+          type: "Feature",
           properties: {},
           geometry: {
-            type: 'LineString',
-            coordinates: shipPoints
-          }
-        }
+            type: "LineString",
+            coordinates: shipPoints,
+          },
+        },
       });
 
       mapRef.current.addLayer({
-        id: 'route',
-        type: 'line',
-        source: 'route-source',
+        id: "route",
+        type: "line",
+        source: "route-source",
         layout: {
-          'line-join': 'round',
-          'line-cap': 'round'
+          "line-join": "round",
+          "line-cap": "round",
         },
         paint: {
-          'line-color': '#fff', // Updated color to match the app's color scheme
-          'line-width': 2, // Adjusted line width
-          'line-blur': 2, // Added blur to create a glow effect
-          'line-opacity': 0.8 // Adjust opacity for better glow effect
-        }
+          "line-color": "#fff", // Updated color to match the app's color scheme
+          "line-width": 5, // Adjusted line width
+          "line-blur": 2, // Added blur to create a glow effect
+          "line-opacity": 0.8, // Adjust opacity for better glow effect
+        },
       });
     });
 
@@ -144,7 +155,9 @@ function App() {
     if (mapRef.current && timeChunks.length > 0) {
       const source = mapRef.current.getSource("heatmap-source");
       if (source) {
-        source.setData(`${geojsonBaseUrl}/${timeChunks[currentTimestamp]}.geojson`);
+        source.setData(
+          `${geojsonBaseUrl}/${timeChunks[currentTimestamp]}.geojson`
+        );
       }
     }
   }, [currentTimestamp, timeChunks]);
@@ -153,18 +166,20 @@ function App() {
   useEffect(() => {
     if (mapRef.current && mapRef.current.isStyleLoaded()) {
       if (shipPoints.length > 0) {
-        const source = mapRef.current.getSource('route-source');
+        const source = mapRef.current.getSource("route-source");
         if (source) {
           source.setData({
-            "type": "FeatureCollection",
-            "features": [{
-              "type": "Feature",
-              "properties": {"name": "Ship Route"},
-              "geometry": {
-                "type": "LineString",
-                "coordinates": shipPoints
-              }
-            }]
+            type: "FeatureCollection",
+            features: [
+              {
+                type: "Feature",
+                properties: { name: "Ship Route" },
+                geometry: {
+                  type: "LineString",
+                  coordinates: shipPoints,
+                },
+              },
+            ],
           });
         }
       }
@@ -176,7 +191,6 @@ function App() {
       alert("Please provide a valid start date.");
       return;
     }
-    
 
     const start = new Date(`2023-${startDate.substring(5, startDate.length)}`);
     const chunks = [];
@@ -189,70 +203,100 @@ function App() {
       while (start <= end) {
         chunks.push(start.toISOString(1).split("T")[0]);
         start.setDate(start.getDate() + 1);
-        
       }
     } else {
       // Static heatmap for the single start date
       chunks.push(start.toISOString().split("T")[0]);
     }
 
-    console.log(chunks)
+    console.log(chunks);
 
     setTimeChunks(chunks);
     setCurrentTimestamp(0);
   };
 
   return (
-    <div>
+    <div className={theme === "light" ? "light-theme" : "dark-theme"}>
       <div className="absolute p-2 bg-transparent text-white rounded-lg z-10 flex flex-col gap-2 align-items-center align-center justify-center w-60">
         <div className="flex gap-2">
           <input
             type="date"
-            placeholder="MM-DD"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
             maxLength={5}
-            className="bg-transparent border border-gray-600 text-white rounded px-2 py-1 w-auto text-center text-sm"
+            className={`bg-transparent border rounded px-2 py-1 w-auto text-center text-sm ${
+              theme === "light"
+                ? "border-gray-600 text-black"
+                : "border-gray-600 text-white"
+            }`}
           />
           <input
             type="date"
-            placeholder="MM-DD"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
             maxLength={5}
-            className="bg-transparent border border-gray-600 text-white rounded px-2 py-1 w-auto text-center text-sm"
+            className={`bg-transparent border rounded px-2 py-1 w-auto text-center text-sm ${
+              theme === "light"
+                ? "border-gray-600 text-black"
+                : "border-gray-600 text-white"
+            }`}
           />
         </div>
-  
+
         <input
           type="text"
           placeholder="Ship IMO Number"
-          value = {shipIdentifier}
+          value={shipIdentifier}
           onChange={(e) => setShipIdentifier(e.target.value)}
-          className="bg-transparent border border-gray-600 text-white rounded px-2 py-1 w-auto text-center text-sm m-0"
+          className={`bg-transparent border rounded px-2 py-1 w-auto text-center text-sm m-0 ${
+            theme === "light"
+              ? "border-gray-600 text-black"
+              : "border-gray-600 text-white"
+          }`}
         />
-        
         <button
           onClick={handleSubmit}
-          className="bg-gray-600 text-white border-none rounded px-2 py-1 cursor-pointer text-sm m-0"
+          className={`border-none rounded px-2 py-1 cursor-pointer text-sm m-0 
+              bg-gray-600 text-white `}
         >
           Load Data
         </button>
-        {loading && <p className="loadingText">Loading...</p>}
-        {error && <p className="errorText">Error: {error}</p>}
-        <button
-          onClick={toggleTheme}
-          className="bg-gray-600 text-white border-none rounded px-2 py-1 cursor-pointer text-sm m-0 mt-2"
-        >
-          Toggle Theme
-        </button>
+        {loading && (
+          <p
+            className={`loadingText ${
+              theme === "light" ? "text-black" : "text-white"
+            }`}
+          >
+            Loading...
+          </p>
+        )}
+        {error && (
+          <p
+            className={`errorText ${
+              theme === "light" ? "text-black" : "text-white"
+            }`}
+          >
+            Error: {error}
+          </p>
+        )}
       </div>
-  
-      {timeChunks.length > 0 && (
-        <div className="absolute bottom-5 right-0 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm z-20">
-          {timeChunks[currentTimestamp]}
-        </div>
-      )}
+
+      <button
+        onClick={toggleTheme}
+        className={`absolute z-10 bottom-10 left-2 border-none rounded px-2 py-1 cursor-pointer text-sm 
+        bg-gray-600 text-white`}
+      >
+        {theme === "light" ? "Dark" : "Light"}
+      </button>
+
+      <div
+        className={`absolute z-10 bottom-5 right-0 bg-opacity-60 border-none rounded px-2 py-1 text-sm ${
+          theme === "light" ? "bg-white text-black" : "bg-black text-white"
+        }`}
+      >
+        {new Date(timeChunks[currentTimestamp]).toLocaleDateString()}
+      </div>
+
       <div ref={mapContainerRef} className="w-full h-screen" />
     </div>
   );
