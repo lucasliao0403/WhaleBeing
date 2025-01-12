@@ -375,14 +375,14 @@ function App() {
 
         {riskScore && (
           <div
-            className={`mt-2 p-2 w-1/2 border rounded text-sm ${
+            className={`mt-2 p-2 w-1/2 rounded text-sm ${
               theme === "light"
-                ? "bg-white text-black border-gray-600"
-                : "bg-black text-white border-gray-600"
+                ? "bg-white text-black "
+                : "bg-black text-white"
             }`}
             style={{backgroundColor: getRiskScoreColor(riskScore)}}
           >
-            Risk Score: {riskScore*100}%
+            Risk Score: <b>{riskScore*100}%</b>
           </div>
         )}
       </div>
