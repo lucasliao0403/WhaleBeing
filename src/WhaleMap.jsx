@@ -8,6 +8,7 @@ import {
   Pin,
 } from "@vis.gl/react-google-maps";
 
+
 import React from "react";
 const heatmapData = [
   { lat: 37.782551, lng: -122.445368 },

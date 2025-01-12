@@ -6,14 +6,11 @@ from dotenv import load_dotenv
 import pprint
 from flask_cors import CORS
 
-
-
 app = Flask(__name__)
 CORS(app)
 
 # The API endpoint
 url = "https://jsonplaceholder.typicode.com/posts/1"
-
 
 # get ship data 
 @app.route('/ship-data')
@@ -44,12 +41,12 @@ def root():
         if response.status_code == 200:
             # Successful request
             data = response.json()
-            print(params)
+            # print(params)
             return data
         else:
             # Error handling
             print(f"Error: {response.status_code}")
-            print(response.text)
+            # print(response.text)
             return "Error: " + str(response.status_code) + " " + response.text
     except:
         return "Error: Invalid Input."
