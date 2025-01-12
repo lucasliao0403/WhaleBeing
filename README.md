@@ -1,3 +1,5 @@
+## https://www.whalebeing.co/
+
 ## Inspiration
 
 Up to 20,000 whales per year are killed by ships globally, posing a significant threat to already vulnerable whale populations. The issue of ship strikes is not only an tragedy for marine ecosystems but also an avoidable one: in many cases, reducing ship speeds and rerouting to avoid high-risk areas comes at little to no cost to ship operators.
