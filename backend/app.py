@@ -38,11 +38,11 @@ def root():
         }   
         headers = {"accept": "application/json", "x-api-key": api_key}
         response = requests.get(url, params=params, headers=headers)
-        pprint.pprint(vars(response))
 
         if response.status_code == 200:
             # Successful request
             data = response.json()
+            print(data)
             # print(params)
             return data
         else:
