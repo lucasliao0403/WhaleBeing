@@ -23,7 +23,7 @@ def root():
         url = "https://api.searoutes.com/vessel/v2/trace"
 
         # Vessel information (either imo or mmsi must be provided)
-        # imo = 9648714
+        imo = 9648714
         departureDateTime = "2025-01-01T21:32:44Z"
         arrivalDateTime = "2025-01-11T21:32:44Z"
 
@@ -37,6 +37,7 @@ def root():
         }   
         headers = {"accept": "application/json", "x-api-key": api_key}
         response = requests.get(url, params=params, headers=headers)
+        print(response)
 
         if response.status_code == 200:
             # Successful request
