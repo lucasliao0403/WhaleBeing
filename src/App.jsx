@@ -25,21 +25,7 @@ function App() {
       // Add a source for the heatmap
       mapRef.current.addSource("heatmap-source", {
         type: "geojson",
-        data: {
-          type: "FeatureCollection",
-          features: [
-            {
-              type: "Feature",
-              geometry: {
-                type: "Point",
-                coordinates: [0, 0], // Manually specify the longitude and latitude
-              },
-              properties: {
-                intensity: 5, // Adjust the intensity of this point
-              },
-            },
-          ],
-        },
+        data: "./src/output.geojson",
       });
 
       // Add a heatmap layer
