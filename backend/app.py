@@ -41,6 +41,7 @@ def root():
         if response.status_code == 200:
             # Successful request
             data = response.json()
+            print(data)
             # print(params)
             return data
         else:

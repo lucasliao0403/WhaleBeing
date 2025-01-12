@@ -2,22 +2,39 @@ import { useState, useRef, useEffect } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import axios from "axios";
-import "./App.css"; // Ensure you have the appropriate CSS file
+import "./App.css"; // Ensure you have the appropriate CSS
+import { calculateRisk } from "./riskCalculator";
 
 function App() {
   const mapRef = useRef();
   const mapContainerRef = useRef();
   const [shipPoints, setShipPoints] = useState([]);
+  const [whaleData, setWhaleData] = useState([]);
   const [currentTimestamp, setCurrentTimestamp] = useState(0);
   const [timeChunks, setTimeChunks] = useState([]);
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [shipIdentifier, setShipIdentifier] = useState();
   const [theme, setTheme] = useState("light"); // Add theme state
+  const [riskScore, setRiskScore] = useState(null); // For storing the calculated ri
 
   const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const geojsonFilePath = "/data/daily_geojsons/2023-06-01.geojson";
+
+  async function logRiskScore(shipPoints, whaleData) {
+    const result = await calculateRisk(shipPoints, whaleData);
+    console.log("Risk Score:", result.riskScore);
+    console.log("Details:", result.details);
+  }
+
+  // if (shipPoints) {
+  //   console.log(shipPoints);
+  // } else {
+  //   console.log("no points");
+  // }
 
   const geojsonBaseUrl = "/data/daily_geojsons";
 
@@ -42,6 +59,27 @@ function App() {
       });
       setResponse(result.data); // Assuming the API returns some response data
       setShipPoints(result.data.features[0].geometry.coordinates[0]);
+
+      // Fetch whale data from 2023-06-01.geojson
+      const whaleRes = await fetch(geojsonFilePath);
+      if (!whaleRes.ok) throw new Error(`Failed to fetch ${geojsonFilePath}`);
+      const geojson = await whaleRes.json();
+      setWhaleData(geojson.features);
+
+      // // Calculate risk
+      // if (shipPoints && geojson.features.length > 0) {
+      //   const riskResult = await calculateRisk(shipPoints, geojson.features);
+      //   console.log("Risk Score:", riskResult.riskScore);
+      // }
+
+      // Calculate risk
+      if (shipPoints && geojson.features.length > 0) {
+        const riskResult = await calculateRisk(shipPoints, geojson.features);
+        setRiskScore(riskResult.riskScore); // Update state with the calculated risk score
+        console.log("Risk Score:", riskResult.riskScore);
+      }
+
+      console.log();
     } catch (err) {
       setError(err.message || "An error occurred");
     } finally {
@@ -164,6 +202,7 @@ function App() {
 
   // Update the line source whenever shipPoints changes
   useEffect(() => {
+    console.log("points updated");
     if (mapRef.current && mapRef.current.isStyleLoaded()) {
       if (shipPoints.length > 0) {
         const source = mapRef.current.getSource("route-source");
@@ -209,7 +248,7 @@ function App() {
       chunks.push(start.toISOString().split("T")[0]);
     }
 
-    console.log(chunks);
+    // console.log(chunks);
 
     setTimeChunks(chunks);
     setCurrentTimestamp(0);
@@ -278,6 +317,17 @@ function App() {
           >
             Error: {error}
           </p>
+        )}
+        {riskScore && (
+          <div
+            className={`mt-2 p-2 rounded ${
+              theme === "light"
+                ? "bg-white text-black border-gray-600"
+                : "bg-black text-white border-gray-600"
+            }`}
+          >
+            Risk Score: {riskScore}
+          </div>
         )}
       </div>
 
