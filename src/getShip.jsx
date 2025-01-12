@@ -82,14 +82,6 @@ export default function TextInput(props) {
 
       {loading && <p className="loadingText">Loading...</p>}
       {error && <p className="errorText">Error: {error}</p>}
-      {response && (
-        <div className="responseContainer">
-          <p className="responseLabel">Response:</p>
-          <pre className="responseText">
-            {JSON.stringify(response, null, 2)}
-          </pre>
-        </div>
-      )}
     </div>
   );
 }
