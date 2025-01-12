@@ -46,6 +46,7 @@ function App() {
     };
   }, []);
 
+  console.log(shipPoints);
   return (
     <div>
       <div

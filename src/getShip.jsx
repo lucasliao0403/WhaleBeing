@@ -45,7 +45,7 @@ export default function TextInput(props) {
   return (
     <div className="searchBar">
       <div className="inputContainer">
-        <h1 className="title">Whale Being</h1>
+        <h1 className="title" value="Whale Being" />
         <input
           id="textInput"
           type="text"
