@@ -1,8 +1,8 @@
 "use client"; // For Next.js environments, if required
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
-import { use } from "react";
+import "./getShip.css"; // Import the CSS file
 
 export default function TextInput(props) {
   const [inputValue, setInputValue] = useState("");
@@ -12,15 +12,9 @@ export default function TextInput(props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // props: shipPoints, setShipPoints
-
   const handleChange = (e) => setInputValue(e.target.value);
   const handleStartDateChange = (e) => setStartDate(e.target.value);
   const handleEndDateChange = (e) => setEndDate(e.target.value);
-
-  //   useEffect(() => {
-  //     // do something with the points
-  //   }, [points]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +22,6 @@ export default function TextInput(props) {
     setError("");
     setResponse("");
 
-    // Append default time to date (00:00:00) before sending
     const startDateTime = `${startDate}T00:00:00`;
     const endDateTime = `${endDate}T00:00:00`;
 
@@ -50,69 +43,49 @@ export default function TextInput(props) {
   };
 
   return (
-    // <div className="max-w-md mx-auto p-6">
     <div className="searchBar">
-      <div className="space-y-4">
-        <label
-          htmlFor="textInput"
-          className="block text-lg font-medium text-gray-700"
-        >
-          Enter IMO:
-        </label>
+      <div className="inputContainer">
+        <h1 className="title">Whale Being</h1>
         <input
           id="textInput"
           type="text"
           value={inputValue}
           onChange={handleChange}
-          placeholder="Enter IMO"
-          className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          placeholder="Ship IMO Number"
+          className="inputField"
         />
 
-        {/* Start Date Input */}
-        <label
-          htmlFor="startDate"
-          className="block text-lg font-medium text-gray-700"
-        >
-          Start Date:
-        </label>
-        <input
-          id="startDate"
-          type="date"
-          value={startDate}
-          onChange={handleStartDateChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        />
+        {/* Date inputs container */}
+        <div className="dateInputs">
+          <input
+            id="startDate"
+            type="date"
+            value={startDate}
+            onChange={handleStartDateChange}
+            placeholder="Start Date"
+            className="inputField dateField"
+          />
+          <input
+            id="endDate"
+            type="date"
+            value={endDate}
+            onChange={handleEndDateChange}
+            placeholder="End Date"
+            className="inputField dateField"
+          />
+        </div>
 
-        {/* End Date Input */}
-        <label
-          htmlFor="endDate"
-          className="block text-lg font-medium text-gray-700"
-        >
-          End Date:
-        </label>
-        <input
-          id="endDate"
-          type="date"
-          value={endDate}
-          onChange={handleEndDateChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        />
-
-        <button
-          type="submit"
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          onClick={handleSubmit}
-        >
+        <button type="submit" className="submitButton" onClick={handleSubmit}>
           Search
         </button>
       </div>
 
-      {loading && <p className="mt-4 text-gray-500">Loading...</p>}
-      {error && <p className="mt-4 text-red-500">Error: {error}</p>}
+      {loading && <p className="loadingText">Loading...</p>}
+      {error && <p className="errorText">Error: {error}</p>}
       {response && (
-        <div className="mt-4 p-4 bg-gray-100 border border-gray-300 rounded-md">
-          <p className="text-gray-700">Response:</p>
-          <pre className="text-sm text-gray-600">
+        <div className="responseContainer">
+          <p className="responseLabel">Response:</p>
+          <pre className="responseText">
             {JSON.stringify(response, null, 2)}
           </pre>
         </div>

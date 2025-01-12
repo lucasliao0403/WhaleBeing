@@ -67,6 +67,7 @@ function App() {
         ref={mapContainerRef}
         style={{ height: "100vh", width: "100%" }}
       />
+
       <TextInput shipPoints={shipPoints} setShipPoints={setShipPoints} />
     </div>
   );
