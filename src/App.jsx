@@ -59,8 +59,8 @@ function App() {
         theme === "light"
           ? "mapbox://styles/gordon111/cm5ti9unu005501rw39yr9q7o"
           : "mapbox://styles/mapbox/dark-v10", // Update style based on theme
-      center: [-125.0, 38.5], // Centered around California
-      zoom: 5, // Adjust zoom level
+      center: [-122.0, 38.5], // Centered around California
+      zoom: 4.5, // Adjust zoom level
     });
 
     mapRef.current.on("load", () => {
@@ -124,8 +124,8 @@ function App() {
           "line-cap": "round",
         },
         paint: {
-          "line-color": "#fff", // Updated color to match the app's color scheme
-          "line-width": 5, // Adjusted line width
+          "line-color": theme === "light" ? "#3b5f7d" : "#fff", // Updated color to match the app's color scheme
+          "line-width": 3, // Adjusted line width
           "line-blur": 2, // Added blur to create a glow effect
           "line-opacity": 0.8, // Adjust opacity for better glow effect
         },
@@ -217,49 +217,84 @@ function App() {
 
   return (
     <div className={theme === "light" ? "light-theme" : "dark-theme"}>
-      <div className="absolute p-2 bg-transparent text-white rounded-lg z-10 flex flex-col gap-2 align-items-center align-center justify-center w-60">
+      <div ref={mapContainerRef} className="w-full h-screen" />
+
+      <div className="absolute top-20 left-20 transform  p-4 bg-transparent text-white rounded-lg z-10 flex flex-col gap-5 align-items-center align-center justify-center w-100">
+        <h1
+          className={`text-4xl font-bold ${
+            theme === "light" ? "text-gray-800" : "text-white"
+          }`}
+          style={{ fontFamily: "Domine, serif" }}
+        >
+          WhaleHub
+        </h1>
+        <h2
+          className={`text-base font-light ${
+            theme === "light" ? "text-gray-600" : "text-gray-300"
+          }`}
+          style={{ marginTop: "-15px" }}
+        >
+          Prediction model for whale-ship interactions.
+        </h2>
         <div className="flex gap-2">
           <input
             type="date"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
             maxLength={5}
-            className={`bg-transparent border rounded px-2 py-1 w-auto text-center text-sm ${
+            className={`border rounded px-2 py-1 w-auto text-center text-sm ${
               theme === "light"
                 ? "border-gray-600 text-black"
                 : "border-gray-600 text-white"
             }`}
+            style={{
+              backgroundColor:
+                theme === "light"
+                  ? "rgba(255, 255, 255, 0.3)"
+                  : "rgba(0, 0, 0, 0.3)",
+            }}
           />
           <input
             type="date"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
             maxLength={5}
-            className={`bg-transparent border rounded px-2 py-1 w-auto text-center text-sm ${
+            className={`border rounded px-2 py-1 w-auto text-center text-sm ${
               theme === "light"
                 ? "border-gray-600 text-black"
                 : "border-gray-600 text-white"
             }`}
+            style={{
+              backgroundColor:
+                theme === "light"
+                  ? "rgba(255, 255, 255, 0.3)"
+                  : "rgba(0, 0, 0, 0.3)",
+            }}
           />
         </div>
 
         <input
           type="text"
           placeholder="Ship IMO Number"
-          value={shipIdentifier}
-          onChange={(e) => setShipIdentifier(e.target.value)}
-          className={`bg-transparent border rounded px-2 py-1 w-auto text-center text-sm m-0 ${
+          className={`bg-white border rounded px-2 py-1 w-auto text-center text-sm m-0 ${
             theme === "light"
               ? "border-gray-600 text-black"
               : "border-gray-600 text-white"
           }`}
+          style={{
+            width:"225px",
+            backgroundColor:
+              theme === "light"
+                ? "rgba(255, 255, 255, 0.3)"
+                : "rgba(0, 0, 0, 0.3)",
+          }}
         />
+
         <button
           onClick={handleSubmit}
-          className={`border-none rounded px-2 py-1 cursor-pointer text-sm m-0 
-              bg-gray-600 text-white `}
+          className={`w-1/3 border-none rounded px-2 py-1 cursor-pointer text-sm m-0 bg-gray-600 text-white `}
         >
-          Load Data
+          Track Ship
         </button>
         {loading && (
           <p
@@ -280,24 +315,18 @@ function App() {
           </p>
         )}
       </div>
-
       <button
         onClick={toggleTheme}
-        className={`absolute z-10 bottom-10 left-2 border-none rounded px-2 py-1 cursor-pointer text-sm 
-        bg-gray-600 text-white`}
+        className={`absolute z-10 bottom-1 left-0 border-none px-2 py-1 text-xs
+          ${theme === "light" ? "bg-[#F0F4F7]" : "bg-[#8C8D8D]"} text-black`}
       >
-        {theme === "light" ? "Dark" : "Light"}
+        Toggle theme (<b>{theme === "light" ? "Dark" : "Light"}</b>)
       </button>
 
-      <div
-        className={`absolute z-10 bottom-5 right-0 bg-opacity-60 border-none rounded px-2 py-1 text-sm ${
-          theme === "light" ? "bg-white text-black" : "bg-black text-white"
-        }`}
-      >
-        {new Date(timeChunks[currentTimestamp]).toLocaleDateString()}
+      <div className="absolute z-10 bottom-5 right-0 bg-opacity-50 border-none px-2 py-1 text-xs bg-white text-black">
+        <b>{new Date(timeChunks[currentTimestamp]).toLocaleDateString()}</b>,
+        Abrahms et al., 2019. Dynamic ensemble models. Ecol. Appl. 29(6): e01977
       </div>
-
-      <div ref={mapContainerRef} className="w-full h-screen" />
     </div>
   );
 }
