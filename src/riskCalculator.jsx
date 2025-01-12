@@ -4,7 +4,7 @@ import { getDistance } from "geolib";
 export async function calculateRisk(
   shipPoints,
   whaleData,
-  spatialThreshold = 500
+  spatialThreshold = 50000
 ) {
   if (!shipPoints.length || !whaleData.length) {
     return { riskScore: 0, details: "No data available for calculation" };

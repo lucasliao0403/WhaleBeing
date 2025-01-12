@@ -26,10 +26,6 @@ def root():
         departureDateTime = request.args.get('start_date') + "Z"
         arrivalDateTime = request.args.get('end_date') + "Z"
 
-        print(departureDateTime)
-        print(arrivalDateTime)
-        print(imo)
-
         params = {
             "imo": imo,
             # "mmsi": mmsi,  # uncomment if using mmsi instead of imo
@@ -42,12 +38,11 @@ def root():
         if response.status_code == 200:
             # Successful request
             data = response.json()
-            print(data)
+            print(response)
             # print(params)
             return data
         else:
             # Error handling
-            pprint(vars(response))
             print(response.status_code)
             # print(f"Error: {response.status_code.error_code}")
             # print(response.text)
