@@ -50,13 +50,16 @@ function App() {
     const endDateTime = `${endDate}T00:00:00`;
     // print("fetching")
     try {
-      const result = await axios.get("http://127.0.0.1:5000/ship-data", {
-        params: {
-          imo: shipIdentifier,
-          start_date: startDateTime,
-          end_date: endDateTime,
-        },
-      });
+      const result = await axios.get(
+        "https://whalebeingbackend.onrender.com/ship-data",
+        {
+          params: {
+            imo: shipIdentifier,
+            start_date: startDateTime,
+            end_date: endDateTime,
+          },
+        }
+      );
       setResponse(result.data); // Assuming the API returns some response data
       setShipPoints(result.data.features[0].geometry.coordinates[0]);
 
@@ -77,15 +80,12 @@ function App() {
       const riskResult = await calculateRisk(shipPoints, geojson.features);
       setRiskScore(riskResult.riskScore); // Update state with the calculated risk score
       console.log("Risk Score:", riskResult.riskScore);
-
     } catch (err) {
       setError(err.message || "An error occurred");
     } finally {
       setLoading(false);
     }
   };
-
-  
 
   useEffect(() => {
     mapboxgl.accessToken =
@@ -256,21 +256,20 @@ function App() {
 
   const getRiskScoreColor = (score) => {
     if (score === 0) {
-        return "rgba(33,102,172,0)";
+      return "rgba(33,102,172,0)";
     } else if (score <= 0.2) {
-        return "rgb(103,169,207)";
+      return "rgb(103,169,207)";
     } else if (score <= 0.4) {
-        return "rgb(209,229,240)";
+      return "rgb(209,229,240)";
     } else if (score <= 0.6) {
-        return "rgb(253,219,199)";
+      return "rgb(253,219,199)";
     } else if (score <= 0.8) {
-        return "rgb(239,138,98)";
+      return "rgb(239,138,98)";
     } else if (score <= 1) {
-        return "rgb(178,24,43)";
+      return "rgb(178,24,43)";
     }
-    return 'red'; // Default case if none of the above conditions match
-};
-
+    return "red"; // Default case if none of the above conditions match
+  };
 
   return (
     <div className={theme === "light" ? "light-theme" : "dark-theme"}>
@@ -340,7 +339,7 @@ function App() {
               : "border-gray-600 text-white"
           }`}
           style={{
-            width:"225px",
+            width: "225px",
             backgroundColor:
               theme === "light"
                 ? "rgba(255, 255, 255, 0.3)"
@@ -376,13 +375,11 @@ function App() {
         {riskScore && (
           <div
             className={`mt-2 p-2 w-1/2 rounded text-sm ${
-              theme === "light"
-                ? "bg-white text-black "
-                : "bg-black text-white"
+              theme === "light" ? "bg-white text-black " : "bg-black text-white"
             }`}
-            style={{backgroundColor: getRiskScoreColor(riskScore)}}
+            style={{ backgroundColor: getRiskScoreColor(riskScore) }}
           >
-            Risk Score: <b>{riskScore*100}%</b>
+            Risk Score: <b>{riskScore * 100}%</b>
           </div>
         )}
       </div>
@@ -395,8 +392,14 @@ function App() {
       </button>
 
       <div className="absolute z-10 bottom-5 right-0 bg-opacity-50 border-none px-2 py-1 text-xs bg-white text-black">
-        <b>{new Date(timeChunks[currentTimestamp]).toLocaleDateString(undefined, {month: 'long', day: 'numeric'})}</b>,
-        Abrahms et al., 2019. Dynamic ensemble models. Ecol. Appl. 29(6): e01977
+        <b>
+          {new Date(timeChunks[currentTimestamp]).toLocaleDateString(
+            undefined,
+            { month: "long", day: "numeric" }
+          )}
+        </b>
+        , Abrahms et al., 2019. Dynamic ensemble models. Ecol. Appl. 29(6):
+        e01977
       </div>
     </div>
   );
