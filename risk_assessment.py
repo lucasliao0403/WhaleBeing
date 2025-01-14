@@ -1,18 +1,18 @@
+//converted to javascript, no longer used
+
 import numpy as np
 from geopy.distance import geodesic
 from datetime import datetime
 
 # get ur whale data
 whale_data = [
-    {"lat": 35.7, "lon": -121.3, "probability": 0.9, "time": "2025-01-09T12:30:00Z"},  # Close match
-    {"lat": 36.0, "lon": -121.6, "probability": 0.8, "time": "2025-01-09T13:30:00Z"}   # Temporal match
+  
 ]
 
 
 # get ur ship route
 ship_route = [
-    {"lat": 35.7, "lon": -121.3, "time": "2025-01-09T12:30:00Z"},  # Exact overlap
-    {"lat": 36.0, "lon": -121.6, "time": "2025-01-09T13:30:00Z"}   # Close match
+   
 ]
 
 # calculate the risk score, like the prob of this ship crashing into a whale. if high then bad.
