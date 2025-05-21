@@ -1,6 +1,4 @@
-## https://www.whalebeing.co/
-## [Devpost](https://devpost.com/software/whalebeing-27sj0w)
-## [Video Demo](https://www.youtube.com/watch?v=EwOxT8YSXnk&embeds_referring_euri=https%3A%2F%2Fdevpost.com%2F&source_ve_path=MjM4NTE)
+## https://www.whalebeing.co/ | ## [Devpost](https://devpost.com/software/whalebeing-27sj0w) | ## [Video Demo](https://www.youtube.com/watch?v=EwOxT8YSXnk&embeds_referring_euri=https%3A%2F%2Fdevpost.com%2F&source_ve_path=MjM4NTE)
 
 Up to 20,000 whales per year are killed by ships globally, posing a significant threat to already vulnerable whale populations. The issue of ship strikes is not only an tragedy for marine ecosystems but also an avoidable one: in many cases, reducing ship speeds and rerouting to avoid high-risk areas comes at little to no cost to ship operators.
 
