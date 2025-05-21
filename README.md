@@ -9,3 +9,12 @@ The core of our maching learning model is based off a 2019 research paper publis
 WhaleBeing enables users to search and visualize ship routes overlaid on our dynamic prediction heatmaps using the SeaRoutes API. Once a ship route is found, WhaleBeing calculates the likelihood of that route intersecting with areas of high blue whale activity by integrating the distribution weights along the nodes of the ship route.
 
 This calculation is pivotal in assessing the risk of ship strikes and supports proactive decision-making to mitigate such risks, ultimately aiding in the protection of this endangered species.
+
+Built in Flask and Next.js with MapBox.
+
+#### Prerequisites
+
+- **Node.js ≥ 18**
+- **Python 3.10+** and **pip**
+- **Mapbox Access Token**: Obtain from [Mapbox](https://account.mapbox.com/access-tokens/) and set as a .env variable.
+
