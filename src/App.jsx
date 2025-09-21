@@ -60,8 +60,19 @@ function App() {
           },
         }
       );
-      setResponse(result.data); // Assuming the API returns some response data
-      setShipPoints(result.data.features[0].geometry.coordinates[0]);
+      console.log("API Response:", result.data);
+      setResponse(result.data);
+
+      // Handle the response structure safely
+      if (result.data && result.data.features && result.data.features.length > 0 &&
+          result.data.features[0].geometry && result.data.features[0].geometry.coordinates &&
+          result.data.features[0].geometry.coordinates.length > 0) {
+        setShipPoints(result.data.features[0].geometry.coordinates[0]);
+      } else {
+        console.error("Unexpected API response structure:", result.data);
+        setError("Invalid response structure from API");
+        return; // Exit early if we can't get ship points
+      }
 
       // Fetch whale data from 2023-06-01.geojson
       const whaleRes = await fetch(geojsonFilePath);

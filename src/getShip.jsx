@@ -33,8 +33,18 @@ export default function TextInput(props) {
           end_date: endDateTime,
         },
       });
-      setResponse(result.data); // Assuming the API returns some response data
-      props.setShipPoints(result.data.features[0].geometry.coordinates[0]);
+      console.log("API Response:", result.data);
+      setResponse(result.data);
+
+      // Handle the response structure safely
+      if (result.data && result.data.features && result.data.features.length > 0 &&
+          result.data.features[0].geometry && result.data.features[0].geometry.coordinates &&
+          result.data.features[0].geometry.coordinates.length > 0) {
+        props.setShipPoints(result.data.features[0].geometry.coordinates[0]);
+      } else {
+        console.error("Unexpected API response structure:", result.data);
+        setError("Invalid response structure from API");
+      }
     } catch (err) {
       setError(err.message || "An error occurred");
     } finally {
