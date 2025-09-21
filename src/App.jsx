@@ -51,7 +51,7 @@ function App() {
     // print("fetching")
     try {
       const result = await axios.get(
-        "https://whalebeingbackend.onrender.com/ship-data",
+        "https://whalebeingbackend-jrw6.onrender.com/ship-data",
         {
           params: {
             imo: shipIdentifier,

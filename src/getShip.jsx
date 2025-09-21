@@ -26,7 +26,7 @@ export default function TextInput(props) {
     const endDateTime = `${endDate}T00:00:00`;
 
     try {
-      const result = await axios.get("http://127.0.0.1:5000/ship-data", {
+      const result = await axios.get("https://whalebeingbackend-jrw6.onrender.com/ship-data", {
         params: {
           imo: inputValue,
           start_date: startDateTime,
