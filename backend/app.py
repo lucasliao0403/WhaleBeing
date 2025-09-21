@@ -18,6 +18,7 @@ def root():
     # load api key
     load_dotenv()
     api_key = os.getenv('SEAROUTES_API_KEY')
+    print(f"API Key loaded: {api_key[:10]}..." if api_key else "API Key not found")
     try:
         imo = request.args.get('imo')
         url = "https://api.searoutes.com/vessel/v2/trace"
@@ -38,15 +39,14 @@ def root():
         if response.status_code == 200:
             # Successful request
             data = response.json()
-            print(response)
-            # print(params)
+            print("Success:", response.status_code)
             return data
         else:
             # Error handling
-            print(response.status_code)
-            # print(f"Error: {response.status_code.error_code}")
-            # print(response.text)
-            return "Error: " + str(response.status_code) + " " + response.text
+            print(f"Error {response.status_code}: {response.text}")
+            print(f"Request params: {params}")
+            print(f"Request headers: {headers}")
+            return {"error": f"{response.status_code}", "message": response.text, "params": params}
     except:
         # pprint(vars(response))
         return "Error: Invalid Input."

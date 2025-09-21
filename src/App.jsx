@@ -4,6 +4,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import axios from "axios";
 import "./App.css"; // Ensure you have the appropriate CSS
 import { calculateRisk } from "./riskCalculator";
+import { ENDPOINTS } from "./constants";
 
 function App() {
   const mapRef = useRef();
@@ -51,7 +52,7 @@ function App() {
     // print("fetching")
     try {
       const result = await axios.get(
-        "https://whalebeingbackend-jrw6.onrender.com/ship-data",
+        ENDPOINTS.SHIP_DATA,
         {
           params: {
             imo: shipIdentifier,
